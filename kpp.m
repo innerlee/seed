@@ -11,13 +11,13 @@ function [ seeds ] = kpp( data, k )
 %  code by: lizz
 %  version: 0.0
 %  date: 2015-08-04
-
+tic
 if k<=0
     seeds=[];
     return; 
 end
 
-[N, M]=size(data);
+[N, ~]=size(data);
 
 if(k>=N)
     seeds=1:N;
@@ -32,7 +32,8 @@ dist=Inf(N,1);
 % random choose first index i
 ind=randi(N);
 seeds(1)=ind;
-
+fprintf(['seed 1: (' int2str(ind) ') '])
+toc
 for j=2:k
     % distance to i
     dist=min(dist,sum((data-repmat(data(ind,:),N,1)).^2,2));
@@ -41,7 +42,8 @@ for j=2:k
     tok=rand()*acc(N);
     ind=sum(acc<tok)+1;
     seeds(j)=ind;
-    
+    fprintf(['seed ' int2str(j) ':  (' int2str(ind) ') '])
+    toc
 end
 
 
